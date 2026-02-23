@@ -15,7 +15,7 @@ let state = {
   theme: localStorage.getItem('app_theme') || 'dark', // 'dark' or 'light'
 
   // Custom work locations (Lugares de Trabajo)
-  savedLocations: JSON.parse(localStorage.getItem('saved_locations')) || ['Torre Horizonte', 'Residencial Jade', 'Plaza Central'],
+  savedLocations: JSON.parse(localStorage.getItem('saved_locations')) || [],
 
   // Material Suggestions: Master (Static) + User (Persistent)
   userSuggestions: JSON.parse(localStorage.getItem('material_suggestions_user')) || [],
@@ -25,11 +25,7 @@ let state = {
   },
 
   // History of saved lists (loaded from localStorage)
-  history: JSON.parse(localStorage.getItem('material_lists_history')) || [
-    { title: 'Hormigón Armado', items: 12, status: 'Pendiente envío', icon: 'foundation', date: 'Hoy, 09:45', content: [] },
-    { title: 'Instalación Eléctrica', items: 45, status: 'Entregado', icon: 'bolt', date: 'Ayer', content: [] },
-    { title: 'Estructura de Acero', items: 8, status: 'En revisión', icon: 'grid_on', date: 'Lun, 14:20', content: [] }
-  ],
+  history: JSON.parse(localStorage.getItem('material_lists_history')) || [],
 };
 
 // --- DOM Elements ---
@@ -160,6 +156,60 @@ window.deleteLocation = (index) => {
 };
 
 /**
+ * Logic: Modern Modal Controller
+ */
+window.showModal = ({ title, message, type = 'info', confirmText = 'ACEPTAR', cancelText = 'CANCELAR', onConfirm = null }) => {
+  const modal = document.getElementById('custom-modal');
+  const titleEl = document.getElementById('modal-title');
+  const messageEl = document.getElementById('modal-message');
+  const btnConfirm = document.getElementById('modal-confirm');
+  const btnCancel = document.getElementById('modal-cancel');
+  const icon = document.getElementById('modal-icon');
+  const iconContainer = document.getElementById('modal-icon-container');
+
+  if (!modal) return;
+
+  // Set Content
+  titleEl.textContent = title;
+  messageEl.textContent = message;
+  btnConfirm.textContent = confirmText;
+  btnCancel.textContent = cancelText;
+
+  // Set Type/Icon
+  if (type === 'danger') {
+    icon.textContent = 'warning';
+    iconContainer.className = 'w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center border border-red-500/20 mx-auto mb-6';
+    icon.className = 'material-icons text-3xl text-red-500';
+    btnConfirm.className = 'flex-1 h-14 rounded-xl bg-red-500 text-white font-bold active:scale-95 transition-transform';
+  } else {
+    icon.textContent = (type === 'success' ? 'check_circle' : 'info');
+    iconContainer.className = 'w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 mx-auto mb-6';
+    icon.className = 'material-icons text-3xl text-primary';
+    btnConfirm.className = 'flex-1 h-14 rounded-xl bg-primary neo-glow text-background-dark font-bold active:scale-95 transition-transform';
+  }
+
+  // Show/Hide Cancel button
+  if (onConfirm) {
+    btnCancel.classList.remove('hidden');
+  } else {
+    btnCancel.classList.add('hidden');
+  }
+
+  // Actions
+  const closeModal = () => modal.classList.add('hidden');
+
+  btnConfirm.onclick = () => {
+    closeModal();
+    if (onConfirm) onConfirm();
+  };
+
+  btnCancel.onclick = closeModal;
+  modal.onclick = (e) => { if (e.target === modal) closeModal(); };
+
+  modal.classList.remove('hidden');
+};
+
+/**
  * Logic: Theme Selection (Dark/Light)
  */
 window.toggleTheme = function () {
@@ -209,6 +259,11 @@ const translations = {
     btn_borrar_todo: 'BORRAR TODO',
     ajustes_sistema: 'Ajustes del Sistema',
     idioma: 'Idioma',
+    desc_idioma: 'Selecciona tu idioma preferido',
+    copia_seguridad: 'Respaldo y Restauración',
+    desc_copia: 'Guarda o recupera tus materiales y listas personalizadas',
+    btn_exportar: 'EXPORTAR',
+    btn_importar: 'IMPORTAR',
     limpiar_datos: 'Limpiar Datos',
     borrar_historial: 'Borra todo el historial local',
   },
@@ -235,9 +290,14 @@ const translations = {
     btn_borrar_todo: 'CLEAR ALL',
     ajustes_sistema: 'System Settings',
     idioma: 'Language',
+    desc_idioma: 'Select your preferred language',
+    copia_seguridad: 'Backup & Restore',
+    desc_copia: 'Save or recover your custom materials and lists',
+    btn_exportar: 'EXPORT',
+    btn_importar: 'IMPORT',
     limpiar_datos: 'Clear Data',
     borrar_historial: 'Clear all local history',
-  }
+  },
 };
 
 window.setLanguage = function (lang) {
@@ -298,9 +358,18 @@ function updateLanguageUI() {
   if (settingsH2) settingsH2.textContent = t.ajustes_sistema;
   const settingsH3s = views.settings.querySelectorAll('h3');
   if (settingsH3s[0]) settingsH3s[0].textContent = t.idioma;
-  if (settingsH3s[1]) settingsH3s[1].textContent = t.limpiar_datos;
+  if (settingsH3s[1]) settingsH3s[1].textContent = t.copia_seguridad;
+  if (settingsH3s[2]) settingsH3s[2].textContent = t.limpiar_datos;
+
   const settingsPs = views.settings.querySelectorAll('p');
-  if (settingsPs[1]) settingsPs[1].textContent = t.borrar_historial;
+  if (settingsPs[0]) settingsPs[0].textContent = t.desc_idioma;
+  if (settingsPs[1]) settingsPs[1].textContent = t.desc_copia;
+  if (settingsPs[2]) settingsPs[2].textContent = t.borrar_historial;
+
+  // Buttons: Export / Import (careful with icons)
+  if (buttons.export) buttons.export.querySelector('span:last-child').previousSibling.textContent = ' '; // spacer
+  if (buttons.export) buttons.export.querySelector('span:last-child').nextSibling.textContent = t.btn_exportar;
+  if (buttons.importTrigger) buttons.importTrigger.querySelector('span:last-child').nextSibling.textContent = t.btn_importar;
 
   // Update button styles in settings
   const btnEs = document.getElementById('lang-es');
@@ -453,12 +522,18 @@ function renderHistory() {
 }
 
 window.deleteList = (index) => {
-  if (confirm('¿Borrar esta lista?')) {
-    state.history.splice(index, 1);
-    saveState();
-    renderHistory();
-    renderDashboard();
-  }
+  window.showModal({
+    title: '¿Borrar Lista?',
+    message: 'Esta acción no se puede deshacer.',
+    type: 'danger',
+    confirmText: 'BORRAR',
+    onConfirm: () => {
+      state.history.splice(index, 1);
+      saveState();
+      renderHistory();
+      renderDashboard();
+    }
+  });
 };
 
 /**
@@ -476,7 +551,7 @@ function renderMaterialSuggestions(filter = '') {
   const matches = state.suggestions.filter(s =>
     s.toLowerCase().includes(filter.toLowerCase()) &&
     s.toLowerCase() !== filter.toLowerCase()
-  ).slice(0, 5); // Show top 5 matches
+  ); // Show all matches
 
   if (matches.length === 0) {
     components.suggestions.classList.add('hidden');
@@ -673,7 +748,7 @@ buttons.addItem.onclick = () => {
 
     syncState(); // Auto-save everything
     inputs.material.value = '';
-    inputs.qty.value = 1;
+    inputs.qty.value = '';
     renderFinalList();
     window.showView('review'); // Auto-navigate to review
 
@@ -699,19 +774,27 @@ buttons.share.onclick = async () => {
     try { await navigator.share({ title: 'Material List Pro', text: text }); }
     catch (err) { console.log('Share failed', err); }
   } else {
-    navigator.clipboard.writeText(text).then(() => alert('Enlace copiado al portapapeles'));
+    navigator.clipboard.writeText(text).then(() => {
+      window.showModal({ title: '¡Copiado!', message: 'Enlace copiado al portapapeles.', type: 'success' });
+    });
   }
 };
 
 buttons.reviewAdd.onclick = () => window.showView('add');
 
 buttons.clearHistory.onclick = () => {
-  if (confirm('¿Seguro que quieres borrar TODO el historial?')) {
-    state.history = [];
-    saveState();
-    renderHistory();
-    renderDashboard();
-  }
+  window.showModal({
+    title: '¿Borrar Todo?',
+    message: '¿Seguro que quieres borrar TODO el historial? Se perderán todos los datos.',
+    type: 'danger',
+    confirmText: 'BORRAR TODO',
+    onConfirm: () => {
+      state.history = [];
+      saveState();
+      renderHistory();
+      renderDashboard();
+    }
+  });
 };
 
 const settingsClearBtn = document.getElementById('settings-clear-history');
@@ -734,6 +817,12 @@ if (buttons.export) {
     a.download = `MaterialListPro_Backup_${new Date().toISOString().split('T')[0]}.json`;
     a.click();
     URL.revokeObjectURL(url);
+
+    window.showModal({
+      title: '¡Copia Creada!',
+      message: 'Se ha generado tu archivo de respaldo incluyendo todas tus listas, lugares y materiales personalizados.',
+      type: 'success'
+    });
   };
 }
 
@@ -748,22 +837,28 @@ if (buttons.importTrigger && buttons.importFile) {
       try {
         const data = JSON.parse(event.target.result);
         if (data.history && Array.isArray(data.history)) {
-          if (confirm('¿Importar datos? Esto reemplazará tu historial actual.')) {
-            state.history = data.history;
-            if (data.savedLocations) state.savedLocations = data.savedLocations;
-            if (data.userSuggestions) state.userSuggestions = data.userSuggestions;
+          window.showModal({
+            title: '¿Importar Datos?',
+            message: 'Esto reemplazará tu historial y configuraciones actuales.',
+            type: 'info',
+            confirmText: 'IMPORTAR',
+            onConfirm: () => {
+              state.history = data.history;
+              if (data.savedLocations) state.savedLocations = data.savedLocations;
+              if (data.userSuggestions) state.userSuggestions = data.userSuggestions;
 
-            syncState();
-            renderHistory();
-            renderDashboard();
-            renderLocationSuggestions();
-            alert('Datos importados correctamente.');
-          }
+              syncState();
+              renderHistory();
+              renderDashboard();
+              renderLocationSuggestions();
+              window.showModal({ title: 'Éxito', message: 'Datos importados correctamente.', type: 'success' });
+            }
+          });
         } else {
-          alert('Archivo no válido.');
+          window.showModal({ title: 'Error', message: 'Archivo no válido.', type: 'danger' });
         }
       } catch (err) {
-        alert('Error al leer el archivo.');
+        window.showModal({ title: 'Error', message: 'Error al leer el archivo.', type: 'danger' });
       }
       e.target.value = ''; // Reset input
     };
@@ -772,9 +867,17 @@ if (buttons.importTrigger && buttons.importFile) {
 }
 
 window.removeItem = (index) => {
-  state.currentList.splice(index, 1);
-  syncState(); // Auto-save on remove
-  renderFinalList();
+  window.showModal({
+    title: '¿Eliminar?',
+    message: '¿Eliminar este material de la lista?',
+    type: 'danger',
+    confirmText: 'ELIMINAR',
+    onConfirm: () => {
+      state.currentList.splice(index, 1);
+      syncState(); // Auto-save on remove
+      renderFinalList();
+    }
+  });
 };
 
 // --- Initialization ---

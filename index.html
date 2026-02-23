@@ -145,7 +145,7 @@
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-2">
               <label class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Cantidad</label>
-              <input type="number" id="qty-input" value="1"
+              <input type="number" id="qty-input"
                 class="w-full bg-slate-900/5 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:border-primary h-12">
             </div>
             <div class="space-y-2">
@@ -257,7 +257,7 @@
             </div>
             <div class="flex-1">
               <h3 class="text-sm font-bold text-slate-900 dark:text-white">Copia de Seguridad</h3>
-              <p class="text-[10px] text-slate-500">Exporta o importa tus listas</p>
+              <p class="text-[10px] text-slate-500">Exportar o importar lista de materiales y sugerencias</p>
             </div>
           </div>
           <div class="grid grid-cols-2 gap-3">
@@ -323,6 +323,31 @@
         </button>
       </div>
     </nav>
+  </div>
+
+  <!-- Custom Modern Modal -->
+  <div id="custom-modal" class="fixed inset-0 z-[100] flex items-center justify-center hidden px-6">
+    <div class="absolute inset-0 bg-background-dark/60 backdrop-blur-sm"></div>
+    <div class="glass-card w-full max-w-sm rounded-3xl p-8 relative animate-in fade-in zoom-in duration-300">
+      <div id="modal-icon-container"
+        class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 mx-auto mb-6">
+        <span id="modal-icon" class="material-icons text-3xl text-primary">info</span>
+      </div>
+      <h3 id="modal-title" class="text-xl font-bold text-center text-slate-900 dark:text-white mb-2">Título</h3>
+      <p id="modal-message" class="text-sm text-center text-slate-500 dark:text-slate-400 mb-8 px-2">Mensaje informativo
+      </p>
+
+      <div class="flex gap-3">
+        <button id="modal-cancel"
+          class="flex-1 h-14 rounded-xl border border-slate-200 dark:border-white/10 text-slate-600 dark:text-slate-400 font-bold hover:bg-slate-100 dark:hover:bg-white/5 transition-colors hidden">
+          CANCELAR
+        </button>
+        <button id="modal-confirm"
+          class="flex-1 h-14 rounded-xl bg-primary neo-glow text-background-dark font-bold active:scale-95 transition-transform">
+          ACEPTAR
+        </button>
+      </div>
+    </div>
   </div>
 
   <script type="module" src="src/main.js"></script>
