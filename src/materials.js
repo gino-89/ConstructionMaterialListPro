@@ -3,90 +3,75 @@
  * This catalog is static and always available.
  */
 export const MASTER_MATERIALS = [
-    // --- Obra Gris / Cimentación ---
-    'Cemento Gris (Saco 42.5kg)',
-    'Cemento Blanco (Saco)',
-    'Arena Fina (M3)',
-    'Arena Gruesa (M3)',
-    'Grava 3/4 (M3)',
-    'Piedra de Relleno (M3)',
-    'Varilla 3/8" (Unidad)',
-    'Varilla 1/2" (Unidad)',
-    'Varilla 3/4" (Unidad)',
-    'Alambre Dulce #18 (Libra)',
-    'Bloque 4" (Unidad)',
-    'Bloque 6" (Unidad)',
-    'Bloque 8" (Unidad)',
-    'Dintel 4" (Pie)',
-    'Dintel 6" (Pie)',
-    'Mezcla Lista (Pañete)',
-    'Aditivo para Hormigón',
-    'Malla Electrosoldada',
+    //METAL C-JOIST//
+    'C-JOIST 2"x8"',
+    'C-JOIST 2"x10"',
+    'C-JOIST 2½"x10"',
+    'C-JOIST 3"x10"',
+    'C-JOIST 2"x12"',
+    'C-JOIST 2½"x12"',
+    'C-JOIST 3"x12"',
 
-    // --- Madera y Encofrado ---
-    'Madera de Pino 2x4x12',
-    'Madera de Pino 2x2x12',
-    'Triplay 3/4"',
-    'Triplay 1/2"',
-    'Clavos de Madera 2"',
-    'Clavos de Madera 3"',
-    'Clavos de Acero 2 1/2"',
-    'Desmoldante de Madera',
+    //Blocking//
+    'Blocking',
+    'Stiffeners',
 
-    // --- Plomería y Tuberías ---
-    'Tubo PVC 1/2" Agua Potable',
-    'Tubo PVC 3/4" Agua Potable',
-    'Tubo PVC 2" Desagüe',
-    'Tubo PVC 4" Desagüe',
-    'Codo PVC 1/2" x 90',
-    'Tee PVC 1/2"',
-    'Pegamento PVC (Cuarto)',
-    'Cinta Tefflon',
-    'Llave de Paso 1/2"',
-    'Tubería PEX 1/2"',
-    'Válvula Check 1"',
+    // FLAT METALS//
+    'Flat METAL 2"',
+    'Flat metal 6"',
 
-    // --- Electricidad ---
-    'Tubo Conduit 1/2"',
-    'Tubo Conduit 3/4"',
-    'Alambre THHN #12 (Pie)',
-    'Alambre THHN #14 (Pie)',
-    'Caja Rectangular PVC',
-    'Caja Octogonal PVC',
-    'Interruptor Sencillo',
-    'Tomacorriente Doble con Tierra',
-    'Panel Eléctrico 8 Circuitos',
-    'Breaker 15A',
-    'Breaker 20A',
-    'Cinta Eléctrica 3M',
+    //Sheeting//
+    '9-16 Deck',
 
-    // --- Terminación y Pintura ---
-    'Pintura Acrílica Blanca (Galón)',
-    'Pintura Acrílica Gris (Galón)',
-    'Cubeta de Pintura (Color)',
-    'Sellador de Paredes',
-    'Masilla para Sheetrock',
-    'Lija de Agua #120',
-    'Lija de Madera #80',
-    'Brocha 3"',
-    'Rodillo 9"',
-    'Bandeja para Pintura',
-    'Thinner (Galón)',
+    //METAL FRAMING//
+    'Metal Angel 2"x2" 20G',
+    'Furring Channel 25G',
+    'Flat METAL 6" 20G',
 
-    // --- Pisos y Azulejos ---
-    'Porcelanato 60x60 (Caja)',
-    'Cerámica de Pared (Caja)',
-    'Zócalos (Unidad)',
-    'Cemento Cola (Saco)',
-    'Derretido para Juntas',
-    'Separadores de Cerámica',
+    //METAL STUDS//
+    'Stud 1 ⅝',
+    'Stud 2 ½',
+    'Stud 3 ⅝',
+    'Stud 4"',
+    'Stud 6"',
 
-    // --- Herramientas Consumibles ---
-    'Disco de Corte Diamante 4"',
-    'Disco de Corte de Hierro 4"',
-    'Broca para Pared 3/8"',
-    'Electrodo 6013 (Libra)',
-    'Guantes de Lona (Par)',
-    'Mascarillas N95',
-    'Cinta Métrica 5m'
+    //METAL TRACKS//
+    'Track 1 ⅝',
+    'Track 2 ½',
+    'Track 3 ⅝',
+    'Track 4"',
+    'Track 6"',
+    'Track 10" ',
+    'Track 12" ',
+
+    //SHEETROCK//
+    'Sheetrock ¼',
+    'Sheetrock ½',
+    'Sheetrock ⅜',
+    'Sheetrock ⅝',
+    'Green Sheetrock ½',
+    'Green Sheetrock ⅝',
+
+    //Dragon Board//
+    'Drogon Board ¾ 4x8" ',
+
+    //playwood//
+    'Playwood ¾',
+    'Playwood ⅝',
+
+    //Wood//
+    'Wood 2x3" ',
+    'Wood 2x4" ',
+    'Wood 2x6" ',
+    'Wood 2x8" ',
+    'Wood 2x10" ',
+
+    'Wood 3x8" ',
+    'Wood 3x10" ',
+    'Wood 3x12" ',
+
+    //Bricks & Cements//
+    'Solid Bricks',
+    'Mortar Mix Type S or N',
+
 ];
