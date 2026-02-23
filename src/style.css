@@ -1,0 +1,69 @@
+/* Custom styles from Stitch V1 */
+:root {
+  --primary: #0dccf2;
+  --background-dark: #101f22;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  -webkit-tap-highlight-color: transparent;
+  min-height: 100dvh;
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.dark .glass-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.neo-glow {
+  box-shadow: 0 0 15px rgba(13, 204, 242, 0.4);
+}
+
+.bg-mesh {
+  background-color: #f5f8f8;
+  background-image:
+    radial-gradient(at 0% 0%, hsla(190, 89%, 50%, 0.1) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, hsla(190, 89%, 50%, 0.05) 0px, transparent 50%),
+    radial-gradient(at 100% 100%, hsla(190, 89%, 50%, 0.1) 0px, transparent 50%);
+  transition: background-color 0.3s ease;
+}
+
+.dark .bg-mesh {
+  background-color: #101f22;
+}
+
+.safe-area-top {
+  padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Transitions and custom active states */
+.active-view {
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hidden {
+  display: none !important;
+}

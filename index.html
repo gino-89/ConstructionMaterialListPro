@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+  <meta name="theme-color" content="#101f22" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MatList Pro" />
+  <title>Material List Pro</title>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#0dccf2",
+            "background-light": "#f5f8f8",
+            "background-dark": "#101f22",
+          },
+          fontFamily: {
+            "display": ["Inter"]
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+        },
+      },
+    }
+  </script>
+  <link rel="stylesheet" href="src/style.css">
+</head>
+
+<body
+  class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen font-display overflow-x-hidden">
+  <!-- Background Decorative Elements -->
+  <div class="fixed inset-0 bg-mesh -z-10"></div>
+  <div class="fixed top-[-10%] right-[-10%] w-64 h-64 bg-primary/10 rounded-full blur-[100px] -z-10"></div>
+  <div class="fixed bottom-[-10%] left-[-10%] w-80 h-80 bg-primary/5 rounded-full blur-[120px] -z-10"></div>
+
+  <div id="app">
+    <!-- Header Section -->
+    <header
+      class="safe-area-top sticky top-0 z-50 px-6 pt-4 pb-2 backdrop-blur-md bg-background-light/80 dark:bg-background-dark/80 transition-colors duration-300">
+      <div class="flex justify-between items-center h-12">
+        <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-slate-100">
+          Material List <span class="text-primary">Pro</span>
+        </h1>
+        <div class="flex gap-4">
+          <button id="theme-toggle" onclick="window.toggleTheme()"
+            class="w-10 h-10 rounded-full glass-card flex items-center justify-center text-primary/80 active:scale-95 transition-all">
+            <span class="material-icons text-xl" id="theme-icon">light_mode</span>
+          </button>
+          <div class="w-10 h-10 rounded-full overflow-hidden border border-primary/30 bg-primary/5 p-1">
+            <img alt="App Icon" class="w-full h-full object-contain" src="icons/icon-192.png" />
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- VIEW: DASHBOARD -->
+    <main id="view-dashboard" class="px-6 py-6 space-y-8 pb-32">
+      <!-- Recent Activity Section -->
+      <section class="space-y-3">
+
+
+        <div class="glass-card rounded-xl p-5 flex items-center justify-between group">
+          <div class="flex items-center justify-between w-full">
+            <div>
+              <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Resumen de Hoy</p>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-white">Actividad Reciente</h2>
+            </div>
+            <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center border border-primary/20">
+              <span class="material-icons text-primary">analytics</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Lists Section -->
+
+
+      <!-- Recent Lists Section -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">Listas Recientes</h2>
+          <button class="text-xs text-primary/80 font-medium">Ver todas</button>
+        </div>
+        <div class="space-y-3" id="recent-activity">
+          <!-- Dynamic history content -->
+        </div>
+      </section>
+
+      <!-- Floating Action Button -->
+      <div class="fixed bottom-24 right-6 z-50">
+        <button id="fab-create"
+          class="bg-primary neo-glow text-background-dark font-bold px-6 py-4 rounded-full flex items-center gap-2 active:scale-95 transition-transform">
+          <span class="material-icons">add</span>
+          <span class="text-sm">Crear Nueva Lista</span>
+        </button>
+      </div>
+    </main>
+
+    <!-- VIEW: ADD MATERIAL -->
+    <main id="view-add" class="hidden px-6 py-6 space-y-8 pb-32">
+      <!-- Site Selection Section -->
+      <section class="space-y-4">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">Lugar de Trabajo</h2>
+        <div class="glass-card p-4 rounded-xl flex items-center gap-4 border border-primary/20 bg-primary/5">
+          <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/10">
+            <span class="material-icons text-primary">location_on</span>
+          </div>
+          <input type="text" id="site-input"
+            class="flex-1 bg-transparent border-none p-0 text-slate-900 dark:text-white font-bold focus:ring-0 placeholder:text-slate-500 dark:placeholder:text-slate-600">
+        </div>
+        <!-- Location suggestions container -->
+        <div id="location-suggestions" class="flex flex-wrap gap-2 pt-2 transition-all overflow-hidden h-auto">
+          <!-- Dynamic location chips -->
+        </div>
+      </section>
+
+      <!-- Material Entry Section -->
+      <section class="space-y-4">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">Agregar Material</h2>
+        <div class="glass-card rounded-xl p-6 space-y-6">
+          <div class="space-y-2">
+            <label class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Material</label>
+            <input type="text" id="material-input"
+              class="w-full bg-slate-900/5 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:border-primary focus:ring-1 focus:ring-primary h-12"
+              placeholder="Ej: Cemento Gray">
+            <div class="flex flex-wrap gap-2 mt-3" id="material-suggestions"></div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Cantidad</label>
+              <input type="number" id="qty-input" value="1"
+                class="w-full bg-slate-900/5 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:border-primary h-12">
+            </div>
+            <div class="space-y-2">
+              <label class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Unidad</label>
+              <select id="unit-input"
+                class="w-full bg-slate-900/5 dark:bg-white/5 border-slate-200 dark:border-white/10 rounded-lg text-slate-900 dark:text-white focus:border-primary h-12">
+                <option value="pcs">pcs</option>
+                <option value="bdl">bundles</option>
+                <option value="box">boxes</option>
+                <option value="bkt">buckets</option>
+              </select>
+            </div>
+          </div>
+
+          <button id="btn-add-item"
+            class="w-full bg-primary neo-glow text-background-dark font-bold h-14 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform mt-4">
+            <span class="material-icons">add_shopping_cart</span>
+            <span>AGREGAR A LA LISTA</span>
+          </button>
+        </div>
+
+        <button id="btn-done"
+          class="w-full border border-primary/30 text-primary font-bold h-14 rounded-xl flex items-center justify-center gap-2 active:bg-primary/10 transition-colors">
+          <span class="material-icons">visibility</span>
+          <span>VER LISTA COMPLETA</span>
+        </button>
+      </section>
+    </main>
+
+    <!-- VIEW: REVIEW & SHARE -->
+    <main id="view-review" class="hidden px-6 py-6 space-y-8 pb-32">
+      <section class="space-y-4">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">
+          <span id="review-title">Resumen de Lista</span>
+          <span class="mx-1 text-slate-600">•</span>
+          <span id="review-site-name" class="text-slate-900 dark:text-white"></span>
+        </h2>
+        <div class="space-y-3" id="final-list">
+          <!-- Dynamic list items -->
+        </div>
+
+        <div class="space-y-3 pt-4">
+          <button id="btn-share"
+            class="w-full bg-primary neo-glow text-background-dark font-bold h-14 rounded-xl flex items-center justify-center gap-2 active:scale-95 transition-transform">
+            <span class="material-icons">share</span>
+            <span>COMPARTIR LISTA</span>
+          </button>
+          <!-- Auto-save is active, deliberate manual save removed for UX -->
+          <button id="btn-save-list"
+            class="w-full bg-white/5 border border-primary/20 text-primary/50 font-bold h-14 rounded-xl flex items-center justify-center gap-2 cursor-not-allowed opacity-50 hidden">
+            <span class="material-icons">save</span>
+            <span>GUARDADO AUTOMÁTICO</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- FAB for Review View (ADD MORE) -->
+      <button id="fab-review-add"
+        class="fixed right-6 bottom-40 w-14 h-14 bg-primary text-background-dark rounded-2xl flex items-center justify-center neo-glow active:scale-90 transition-transform z-50">
+        <span class="material-icons text-3xl">add</span>
+      </button>
+    </main>
+
+    <!-- VIEW: HISTORY -->
+    <main id="view-history" class="hidden px-6 py-6 space-y-8 pb-32">
+      <section class="space-y-4">
+        <div class="flex items-center justify-between">
+          <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">Historial de Listas</h2>
+          <button id="btn-clear-history"
+            class="text-[10px] text-red-400 font-medium border border-red-400/20 px-2 py-0.5 rounded">BORRAR
+            TODO</button>
+        </div>
+        <div class="space-y-3" id="history-container">
+          <!-- Dynamic history content -->
+        </div>
+      </section>
+    </main>
+
+    <!-- VIEW: SETTINGS -->
+    <main id="view-settings" class="hidden px-6 py-6 space-y-8 pb-32">
+      <section class="space-y-6">
+        <h2 class="text-xs font-semibold uppercase tracking-widest text-primary/70">Ajustes del Sistema</h2>
+
+        <!-- Language Selection -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+              <span class="material-icons text-primary">translate</span>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Idioma / Language</h3>
+              <p class="text-[10px] text-slate-500">Selecciona tu preferencia</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3">
+            <button id="lang-es" onclick="window.setLanguage('es')"
+              class="px-4 py-3 rounded-xl border border-primary/40 bg-primary/10 text-primary text-xs font-bold transition-all active:scale-95">Español</button>
+            <button id="lang-en" onclick="window.setLanguage('en')"
+              class="px-4 py-3 rounded-xl border border-white/5 bg-white/5 text-slate-400 text-xs font-bold transition-all active:scale-95">English</button>
+          </div>
+        </div>
+
+        <!-- Backup & Restore -->
+        <div class="glass-card rounded-2xl p-6 space-y-4">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center border border-primary/20">
+              <span class="material-icons text-primary">cloud_download</span>
+            </div>
+            <div class="flex-1">
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Copia de Seguridad</h3>
+              <p class="text-[10px] text-slate-500">Exporta o importa tus listas</p>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <button id="btn-export"
+              class="px-4 py-3 rounded-xl border border-primary/20 bg-primary/5 text-primary text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-2">
+              <span class="material-icons text-xs">download</span> EXPORTAR
+            </button>
+            <button id="btn-import-trigger"
+              class="px-4 py-3 rounded-xl border border-primary/20 bg-primary/5 text-primary text-xs font-bold transition-all active:scale-95 flex items-center justify-center gap-2">
+              <span class="material-icons text-xs">upload</span> IMPORTAR
+            </button>
+            <input type="file" id="import-file" class="hidden" accept=".json">
+          </div>
+        </div>
+
+        <!-- Persistence & Storage -->
+        <div class="glass-card rounded-2xl p-6 flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-lg bg-red-400/10 flex items-center justify-center border border-red-400/20">
+              <span class="material-icons text-red-400">delete_forever</span>
+            </div>
+            <div>
+              <h3 class="text-sm font-bold text-slate-900 dark:text-white">Limpiar Datos</h3>
+              <p class="text-[10px] text-slate-500">Borra todo el historial local</p>
+            </div>
+          </div>
+          <button id="settings-clear-history" class="p-2 text-slate-500 hover:text-red-400">
+            <span class="material-icons">arrow_forward_ios</span>
+          </button>
+        </div>
+
+        <!-- Credits Section -->
+        <div class="pt-12 text-center space-y-2 pb-8">
+          <p class="text-[9px] text-slate-600 uppercase tracking-[0.3em] font-bold">Arquitectura de Software v1.2</p>
+          <div class="h-px w-8 bg-primary/20 mx-auto"></div>
+          <p class="text-xs text-primary/80 font-bold tracking-widest pt-2">
+            CREADO POR: <span class="text-slate-900 dark:text-white">GINO "EL ARQUITECTO"</span>
+          </p>
+          <p class="text-[8px] text-slate-700 italic">Material List Pro © 2026</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav
+      class="fixed bottom-0 left-0 right-0 h-20 glass-card border-t border-slate-200 dark:border-white/5 z-40 safe-area-bottom px-8">
+      <div class="flex justify-between items-center h-full max-w-md mx-auto">
+        <button onclick="window.showView('dashboard')" id="nav-dashboard"
+          class="flex flex-col items-center gap-1 text-primary">
+          <span class="material-icons text-2xl">dashboard</span>
+          <span class="text-[10px] font-medium">Dashboard</span>
+        </button>
+        <button onclick="window.showView('history')" id="nav-history"
+          class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors">
+          <span class="material-icons text-2xl">list_alt</span>
+          <span class="text-[10px] font-medium">Listas</span>
+        </button>
+
+        <button onclick="window.showView('settings')" id="nav-settings"
+          class="flex flex-col items-center gap-1 text-slate-500 hover:text-primary transition-colors">
+          <span class="material-icons text-2xl">settings</span>
+          <span class="text-[10px] font-medium">Ajustes</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <script type="module" src="src/main.js"></script>
+</body>
+
+</html>
