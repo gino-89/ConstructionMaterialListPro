@@ -8,6 +8,15 @@ body {
   font-family: 'Inter', sans-serif;
   -webkit-tap-highlight-color: transparent;
   min-height: 100dvh;
+  /* Prevent text selection on tap but allow on long press if system supports it */
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* Allow selection in inputs and interactive areas */
+input, textarea, [contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 .glass-card {
