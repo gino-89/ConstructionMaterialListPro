@@ -641,6 +641,8 @@ function renderFinalList() {
   }
 
   state.currentList.forEach((item, index) => {
+    // Escape quotes for safe HTML attribute usage
+    const escapedName = item.name.replace(/"/g, '&quot;');
     const div = document.createElement('div');
     div.className = 'glass-card p-4 rounded-xl flex items-center justify-between group gap-3';
     div.innerHTML = `
@@ -649,7 +651,7 @@ function renderFinalList() {
           <span class="material-icons text-primary/60 text-sm">edit</span>
         </div>
         <div class="flex-1 min-w-0 space-y-1">
-          <input type="text" value="${item.name}"
+          <input type="text" value="${escapedName}"
             class="w-full bg-transparent border-none p-0 text-slate-900 dark:text-white font-semibold focus:ring-0 text-sm"
             placeholder="Material"
             onchange="window.updateItemField(${index}, 'name', this.value)">
@@ -714,11 +716,19 @@ buttons.create.onclick = () => {
 };
 
 buttons.addItem.onclick = () => {
-  const name = inputs.material.value.trim();
+  let name = inputs.material.value.trim();
   const qty = inputs.qty.value;
   const unit = inputs.unit.value;
 
   if (name) {
+    // Normalizar medidas automáticamente (" para pulgadas, ' para pies)
+    name = name
+      .replace(/\s*(pulgadas|pulgada|inches|inch)\b/gi, '"')
+      .replace(/\s*(pies|pie|feet|foot)\b/gi, "'")
+      .replace(/\s*"\s*/g, '"')
+      .replace(/\s*'\s*/g, "'")
+      .trim();
+
     state.currentList.push({ name, qty, unit });
 
     // NEW: If this is a new list, create the history entry immediately

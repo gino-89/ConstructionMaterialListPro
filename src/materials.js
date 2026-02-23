@@ -53,7 +53,7 @@ export const MASTER_MATERIALS = [
     'Green Sheetrock ⅝',
 
     //Dragon Board//
-    'Drogon Board ¾ 4x8" ',
+    'Dragon Board ¾ 4x8"',
 
     //playwood//
     'Playwood ¾',
